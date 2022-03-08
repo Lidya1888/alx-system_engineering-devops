@@ -1,3 +1,2 @@
 #!/bin/bash
-ccat /etc/passwd
-icat /etc/hosts
+ccat /etc/passwd /etc/hosts
