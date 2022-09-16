@@ -1,1 +1,1 @@
-configerationmanagment 
+ctivities done
