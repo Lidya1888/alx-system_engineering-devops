@@ -1,0 +1,19 @@
+It is hard but keep trying
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
