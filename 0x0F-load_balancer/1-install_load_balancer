@@ -3,38 +3,17 @@
 #+    Enables management via the init script.
 #+    Distributes requests using a round-robin algorithm.
 
-apt-get install -y software-properties-common
-add-apt-repository -y ppa:vbernat/haproxy-1.8
-apt-get update
-apt-get install -y haproxy=1.8.\*
-
-echo "ENABLED=1" >> /etc/default/haproxy
-mv /etc/haproxy/haproxy.cfg{,.original}
-touch /etc/haproxy/haproxy.cfg
-
-printf %s "global
-    log 127.0.0.1 local0 notice
-    maxconn 2000
-    user haproxy
-    group haproxy
-defaults
-    log     global
-    mode    http
-    option  httplog
-    option  dontlognull
-    retries 3
-    option redispatch
-    timeout connect  5000
-    timeout client  10000
-    timeout server  10000
-listen hbnb
-    bind 0.0.0.0:80
+sudo apt-get -y update
+sudo apt -y install haproxy
+echo "
+frontend node-http
+    bind *:80
     mode http
-    stats enable
-    stats uri /haproxy?stats
+    default_backend the_backend
+backend the_backend
     balance roundrobin
-    option httpclose
     option forwardfor
-    server 24276-web-01 18.208.132.167:80 check
-    server 24276-web-02 18.232.119.117:80 check
-" >> /etc/haproxy/haproxy.cfg
+    server 24276-web-01  18.208.132.167:80 check
+    server 24276-web-02  18.232.119.117:80 check
+" | sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null
+service haproxy restart
